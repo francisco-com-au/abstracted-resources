@@ -1,5 +1,5 @@
 # K8S Abstracted Resources
-Goal is to enable platform engineers to *easily* create custom resources and operators
+Goal is to enable Platform Engineers to *easily* create custom resources and operators.
 
 # Motivation
 ## The current state of the cloud
@@ -17,7 +17,7 @@ Now imagine this use case: "I want to write a web app and expose it on a domain"
 
 ## Where we want to go
 - Platform Engineers will still lock down the cloud and inject their opinions, this is good for many reasons. But they also need to provide an interface that is easy to consume. You can't expect your Developers to understand the complexity of your platform.
-- Platform Engineers will create *Abstracted Resources* that everyone can consume *easily*
+- Platform Engineers will create *Abstracted Resources* that everyone can consume *easily*.
 - Developers will consume those Abstracted Resources from code if they feel comfortable or from a *nice* UI.
 
 This is no revolutionary idea. I'm not claiming to be a visionary. But the thing is that we just don't do it. Why? Because it's too hard. It's too hard for Platform Engineers to create these offerings. And this is where we come in. We want to make it easy for Platform Engineers to create abstractions to then make it easy for Developers to do their job.
@@ -30,7 +30,9 @@ This is no revolutionary idea. I'm not claiming to be a visionary. But the thing
     - leveraging existing technologies where possible
 
 ## A word on Kubernetes
-Kubernetes has become the lowest common denominator in the industry. You orchestrate containers but also manage infrastructure. It has a nice API (some may say that it is the one API to rule them all!). There is a lot of open source tooling built to play nice with Kubernetes. We want to build our solution as an extension of Kubernetes as well.
+Kubernetes has become the lowest common denominator in the industry. It orchestrates containers but it can also manage infrastructure. It has a nice API (some may say that it is the one API to rule them all!). There is a lot of open source tooling built to play nice with Kubernetes. We want to build our solution as an extension of Kubernetes as well.
 
 You should be able to install this with a simple `kubectl apply -f ...`
 
+## Design
+Detailed design documents are in the `./design` folder.
