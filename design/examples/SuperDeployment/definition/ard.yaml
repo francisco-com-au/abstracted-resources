@@ -1,0 +1,100 @@
+apiVersion: platform.io/v1alpha1
+kind: AbstractedResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: superdeployments.platform.io
+spec:
+  # group name to use for REST API: /apis/<group>/<version>
+  group: platform.io
+  # either Namespaced or Cluster
+  scope: Namespaced
+  names:
+    # plural name to be used in the URL: /apis/<group>/<version>/<plural>
+    plural: superdeployments
+    # singular name to be used as an alias on the CLI and for display
+    singular: superdeployment
+    # kind is normally the CamelCased singular type. Your resource manifests use this.
+    kind: SuperDeployment
+    # shortNames allow shorter string to match your resource on the CLI
+    shortNames:
+    - sdeploy
+    - sd
+  # list of versions supported by this CustomResourceDefinition
+  versions:
+  - name: v1alpha1
+    # Each version can be enabled/disabled by Served flag.
+    served: true
+    # One and only one version must be marked as the storage version.
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            properties:
+              name:
+                type: string
+              image:
+                type: string
+              replicas:
+                type: integer
+              ports:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    container:
+                      type: integer
+                    service:
+                      type: integer
+    templates:
+    - name: deployment
+      template: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: {{ .Values.spec.name }}
+          labels:
+            app: {{ .Values.spec.name }}
+        spec:
+          replicas: {{ .Values.spec.Replicas }}
+          selector:
+            matchLabels:
+              app: {{ .Values.spec.name }}
+          template:
+            metadata:
+              labels:
+                app: {{ .Values.spec.name }}
+            spec:
+              containers:
+              - name: {{ .Values.spec.name }}
+                image: {{ .Values.spec.Image }}
+                {{- if .Values.spec.ports }}
+                ports:
+                {{- range $port := .Values.spec.ports }}
+                - name: {{ $port.name }}
+                  containerport: {{ $port.container }}
+                {{- end }}
+                {{- end }}
+    - name: service
+      template: |
+        {{- if .Values.spec.ports }}
+        {{- range $port := .Values.spec.ports }}
+        {{- if $port.service }}
+        ---
+        apiVersion: v1
+        kind: Service
+        metadata:
+          name: {{ .Values.spec.name }}-{{ $port.name }}
+        spec:
+          ports:
+          - port: {{ $port.service }}
+            targetport: {{ $port.container }}
+          selector:
+            app: {{ .Values.spec.name }}
+        {{- end }}
+        {{- end }}
+        {{- end }}
