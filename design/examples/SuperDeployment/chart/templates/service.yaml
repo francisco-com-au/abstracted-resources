@@ -1,0 +1,17 @@
+{{- if .Values.spec.ports }}
+{{- range $port := .Values.spec.ports }}
+{{- if $port.service }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Values.spec.name }}-{{ $port.name }}
+spec:
+  ports:
+  - port: {{ $port.service }}
+    targetport: {{ $port.container }}
+  selector:
+    app: {{ $.Values.spec.name }}
+{{- end }}
+{{- end }}
+{{- end }}

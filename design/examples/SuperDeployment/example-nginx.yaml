@@ -1,0 +1,17 @@
+apiVersion: platform.io/v1alpha1
+kind: SuperDeployment
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  name: nginx
+  image: nginx:1.14.2
+  replicas: 3
+  ports:
+  - name: http
+    container: 80
+    service: 80
+  - name: https
+    container: 443
+    service: 443
