@@ -1,6 +1,8 @@
 # K8S Abstracted Resources
 Goal is to enable Platform Engineers to *easily* create custom resources and operators.
 
+![alt text](https://github.com/francisco-com-au/abstracted-resources/blob/main/design/images/meme.jpg?raw=true)
+
 # Motivation
 ## The current state of the cloud
 As the world moves towards cloud native applications we are seeing an increasing need to set controls, policies and SRE practices. As a result the cloud is being locked down by Platform Engineers to make it more "corporate friendly".
